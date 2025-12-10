@@ -112,10 +112,10 @@ function Games() {
                         🎲 {sessionCount} session{sessionCount !== 1 ? 's' : ''} available
                       </span>
                     ) : (
-                      <span className="no-sessions">No sessions yet</span>
+                      <span className="no-sessions">No events yet</span>
                     )}
                   </div>
-                  <button className="secondary">View Sessions</button>
+                  <button className="secondary">View Events</button>
                 </div>
               </div>
             );

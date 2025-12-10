@@ -63,9 +63,9 @@ function Discover() {
     <div className="discover-page">
       <div className="hero-section">
         <div className="container">
-          <h1 className="hero-title">Find Your Next Game Night</h1>
+          <h1 className="hero-title">Find Your Next Board Game Night</h1>
           <p className="hero-subtitle">
-            Connect with nearby players and join board game sessions in your area
+            Connect with nearby players and join events in your area
           </p>
 
           <div className="search-bar">
@@ -84,7 +84,7 @@ function Discover() {
               value={filters.gameId}
               onChange={handleFilterChange}
             >
-              <option value="">All Games</option>
+              <option value="">All Events</option>
               {games.map(game => (
                 <option key={game.id} value={game.id}>{game.image} {game.name}</option>
               ))}
@@ -122,7 +122,7 @@ function Discover() {
       </div>
 
       <div className="container sessions-section">
-        <h2 className="section-title">Available Sessions</h2>
+        <h2 className="section-title">Available Events</h2>
 
         {loading && (
           <div style={{
@@ -144,7 +144,7 @@ function Discover() {
             backgroundColor: '#fee',
             borderRadius: '8px'
           }}>
-            Error loading sessions: {error}
+            Error loading events: {error}
           </div>
         )}
 
@@ -155,7 +155,7 @@ function Discover() {
             fontSize: '16px',
             color: '#666'
           }}>
-            No sessions found. Be the first to create one!
+            No events found. Be the first to create one!
           </div>
         )}
 

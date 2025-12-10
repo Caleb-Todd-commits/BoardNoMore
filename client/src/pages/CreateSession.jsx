@@ -95,7 +95,7 @@ function CreateSession() {
     <div className="create-session-page">
       <div className="container">
         <div className="create-header">
-          <h1>Create a New Session</h1>
+          <h1>Create a New Event</h1>
           <p className="create-subtitle">
             Host a game night and invite players from your community
           </p>
@@ -136,12 +136,12 @@ function CreateSession() {
                 <textarea
                   id="description"
                   rows="5"
-                  placeholder="Describe your session, what kind of players you're looking for, and any special details..."
+                  placeholder="Describe your event, what kind of players you're looking for, and any special details..."
                   value={formData.description}
                   onChange={handleChange}
                   required
                 />
-                <small>Be specific! Mention experience level, house rules, or what makes this session special.</small>
+                <small>Be specific! Mention experience level, house rules, or what makes this event special.</small>
               </div>
             </div>
 
@@ -283,7 +283,7 @@ function CreateSession() {
                   <strong>Set realistic time expectations</strong> - Account for setup, teaching, and multiple rounds
                 </li>
                 <li>
-                  <strong>Communicate materials</strong> - Let players know what to bring (if anything)
+                  <strong>Say what to bring</strong> - Let players know what to bring (if anything)
                 </li>
                 <li>
                   <strong>Respond to comments</strong> - Answer questions quickly to build trust
