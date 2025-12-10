@@ -33,7 +33,7 @@ function Discover() {
     };
 
     fetchData();
-  }, [filters.gameId, filters.skillLevel]);
+    }, [filters]);
 
   const handleFilterChange = (e) => {
     setFilters({

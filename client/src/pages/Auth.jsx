@@ -86,7 +86,7 @@ function Auth() {
               <p className="auth-tagline">
                 {isSignUp
                   ? 'Join the board game community'
-                  : 'Welcome back to game night'}
+                  : 'Welcome back to BoardNoMore'}
               </p>
             </div>
 
@@ -223,28 +223,24 @@ function Auth() {
                 <span className="feature-icon">🎯</span>
                 <div>
                   <h3>Find Your Game</h3>
-                  <p>Discover sessions for your favorite board games nearby</p>
                 </div>
               </div>
               <div className="feature-item">
                 <span className="feature-icon">👥</span>
                 <div>
                   <h3>Meet Players</h3>
-                  <p>Connect with local gamers who share your interests</p>
                 </div>
               </div>
               <div className="feature-item">
                 <span className="feature-icon">📅</span>
                 <div>
                   <h3>Easy Scheduling</h3>
-                  <p>Organize game nights that fit everyone's schedule</p>
                 </div>
               </div>
               <div className="feature-item">
                 <span className="feature-icon">⭐</span>
                 <div>
                   <h3>Build Community</h3>
-                  <p>Rate sessions and build your gaming reputation</p>
                 </div>
               </div>
             </div>

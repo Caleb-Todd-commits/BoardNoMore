@@ -32,16 +32,16 @@ function Navigation({ isAuthenticated = false }) {
             {isAuthenticated ? (
               <>
                 <Link
-                  to="/my-sessions"
-                  className={`nav-link ${isActive('/my-sessions') ? 'active' : ''}`}
+                  to="/my-games"
+                  className={`nav-link ${isActive('/my-games') ? 'active' : ''}`}
                 >
-                  My Sessions
+                  My Games
                 </Link>
                 <Link
                   to="/create"
                   className="nav-link create-button"
                 >
-                  + Create Session
+                  + Create Game
                 </Link>
                 <Link
                   to="/profile"
