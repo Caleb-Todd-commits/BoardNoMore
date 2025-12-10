@@ -1,7 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Navigation from './components/Navigation';
-import SupabaseTest from './components/SupabaseTest';
 import Discover from './pages/Discover';
 import Auth from './pages/Auth';
 import SessionDetail from './pages/SessionDetail';
@@ -11,25 +10,64 @@ import Profile from './pages/Profile';
 import MySessions from './pages/MySessions';
 import './App.css';
 
-function App() {
-  // For demo purposes, you can toggle this to see authenticated vs non-authenticated views
-  const [isAuthenticated] = useState(true);
+// Protected Route wrapper
+function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '60vh',
+        fontSize: '18px',
+        color: '#666'
+      }}>
+        Loading...
+      </div>
+    );
+  }
+  
+  return isAuthenticated ? children : <Navigate to="/auth" />;
+}
+
+function AppContent() {
+  const { isAuthenticated } = useAuth();
 
   return (
+    <div className="app">
+      <Navigation isAuthenticated={isAuthenticated} />
+      <Routes>
+        <Route path="/" element={<Discover />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/games" element={<Games />} />
+        <Route path="/session/:id" element={<SessionDetail />} />
+        <Route path="/create" element={
+          <ProtectedRoute>
+            <CreateSession />
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+        <Route path="/my-sessions" element={
+          <ProtectedRoute>
+            <MySessions />
+          </ProtectedRoute>
+        } />
+      </Routes>
+    </div>
+  );
+}
+function App() {
+  return (
     <Router>
-      <div className="app">
-        <Navigation isAuthenticated={isAuthenticated} />
-        <Routes>
-          <Route path="/" element={<Discover />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/games" element={<Games />} />
-          <Route path="/session/:id" element={<SessionDetail />} />
-          <Route path="/create" element={<CreateSession />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/my-sessions" element={<MySessions />} />
-        </Routes>
-        <SupabaseTest />
-      </div>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </Router>
   );
 }

@@ -1,12 +1,37 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { sessions, currentUser } from '../data/dummyData';
+import { getHostedSessions, getAttendingSessions } from '../services/sessions';
+import { useAuth } from '../context/AuthContext';
 import './MySessions.css';
 
 function MySessions() {
-  const hostedSessions = sessions.filter(s => s.hostId === currentUser.id);
-  const attendingSessions = sessions.filter(
-    s => s.attendees.includes(currentUser.id) && s.hostId !== currentUser.id
-  );
+  const { user } = useAuth();
+  const [hostedSessions, setHostedSessions] = useState([]);
+  const [attendingSessions, setAttendingSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSessions = async () => {
+      if (!user) return;
+      try {
+        setLoading(true);
+        const [hosted, attending] = await Promise.all([
+          getHostedSessions(user.id),
+          getAttendingSessions(user.id)
+        ]);
+        setHostedSessions(hosted);
+        setAttendingSessions(attending);
+      } catch (err) {
+        console.error('Error fetching sessions:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSessions();
+  }, [user]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -24,6 +49,28 @@ function MySessions() {
       minute: '2-digit'
     });
   };
+
+  if (loading) {
+    return (
+      <div className="my-sessions-page">
+        <div className="container" style={{ textAlign: 'center', padding: '60px 20px' }}>
+          <div style={{ fontSize: '18px', color: '#666' }}>Loading your sessions...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="my-sessions-page">
+        <div className="container" style={{ textAlign: 'center', padding: '60px 20px' }}>
+          <div style={{ fontSize: '16px', color: '#c33', backgroundColor: '#fee', padding: '20px', borderRadius: '8px' }}>
+            Error loading sessions: {error}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="my-sessions-page">
@@ -53,9 +100,9 @@ function MySessions() {
                     className="my-session-card"
                   >
                     <div className="session-card-header">
-                      <span className="session-game-icon">{session.game.image}</span>
+                      <span className="session-game-icon">{session.game?.image || '🎲'}</span>
                       <div className="session-card-info">
-                        <h3>{session.game.name}</h3>
+                        <h3>{session.game?.name || 'Unknown Game'}</h3>
                         <p className="session-location-text">
                           📍 {session.location}
                         </p>
@@ -67,13 +114,13 @@ function MySessions() {
 
                     <div className="session-card-body">
                       <div className="session-datetime">
-                        <span>📅 {formatDate(session.startTime)}</span>
+                        <span>📅 {formatDate(session.start_time)}</span>
                         <span>•</span>
-                        <span>🕐 {formatTime(session.startTime)}</span>
+                        <span>🕐 {formatTime(session.start_time)}</span>
                       </div>
 
                       <div className="session-attendees-count">
-                        👥 {session.attendees.length}/{session.capacity} attendees
+                        👥 {session.attendees?.length || 0}/{session.capacity} attendees
                       </div>
                     </div>
 
